@@ -1,0 +1,178 @@
+ALTER DATABASE demoDB1
+ADD FILEGROUP FG1;
+
+ALTER DATABASE demoDB1
+ADD FILE (NAME = demoDB1_ndf, 
+FILENAME = 'D:\demoDB1\data\demoDB1.ndf' , --podaæ œciêzkê poprzednich plikow
+SIZE = 5120KB , FILEGROWTH = 1024KB )
+TO FILEGROUP FG1;
+
+ALTER DATABASE demoDB1
+MODIFY FILEGROUP FG1
+DEFAULT
+
+Create Table tab1(
+id int identity Primary key,
+tekst CHAR(200)
+);
+
+declare @i int
+set @i = 0
+while @i > -1
+    begin
+      set @i += 1
+      insert into tab1 values ('a');
+    end
+
+Create Table tab3(
+id int identity Primary key,
+tekst CHAR(200)
+);
+
+insert into tab3 values('abc')
+insert into tab3 values('AbC')
+insert into tab3 values('aBc')
+
+select
+*
+from
+tab3 
+where
+tekst='abc' --3 Wiersze, nie zmusilismy do rozpoznawania duzych i malych znakow
+
+select
+*
+from
+tab3 
+where
+tekst 
+COLLATE
+Polish_CS_AS ='abc' --zmuszenie do rozpoznawania znaków
+
+insert
+into
+tab3 
+values
+(
+'cAb'
+),(
+'baZ'
+)
+
+select
+tekst 
+from
+tab3 
+order
+by
+tekst
+
+select
+tekst 
+from
+tab3 
+order
+by
+tekst 
+COLLATE
+Polish_CS_AS --ró¿nica miêdzy tym wy¿ej a ni¿ej jest w tym, ¿e wchodzi w gre rozpoznawanie polskiego alfabetu
+
+insert
+into
+tab3 
+values
+(
+'¹æŸ'
+),(
+'êæ¿'
+),(
+'exy'
+),(
+'êqa'
+)
+
+select
+*
+from
+tab3 
+order
+by
+tekst 
+--(CI_AS)
+
+select
+tekst 
+from
+tab3 
+order
+by
+tekst 
+COLLATE
+Polish_CI_AI 
+--(CI_AI)
+
+select
+tekst 
+from
+tab3 
+order
+by
+tekst 
+COLLATE
+Polish_CS_AI 
+
+use master
+go
+alter
+database
+demoDB1 
+set
+offline
+with
+rollback
+immediate
+;
+
+use master
+go
+select
+*
+from DemoDB1.dbo.tab1
+
+ALTER
+DATABASE
+demoDB1
+SET
+ONLINE
+
+Alter database demoDB1 set READ_WRITE
+
+alter
+table
+tab1 
+add
+nazwisko 
+varchar
+(
+40
+);
+
+select * from tab1
+
+create table tab4(
+id int identity Primary key
+);
+
+alter
+table
+tab4
+add
+nazwisko 
+varchar
+(
+40
+);
+
+Alter database demoDB1 set single_user
+
+Alter database demoDB1 set restricted_user
